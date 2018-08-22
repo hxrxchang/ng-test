@@ -8,4 +8,12 @@ describe('CounterService', () => {
       expect(value).toBe(3);
     });
   });
+
+  it('decrement() should decrease point', () => {
+    const service = new CounterService();
+    service.decrement(2);
+    service.point.subscribe(value => {
+      expect(value).toBe(-2);
+    });
+  });
 });
