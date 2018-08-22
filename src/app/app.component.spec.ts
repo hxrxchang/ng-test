@@ -1,27 +1,58 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { BehaviorSubject } from 'rxjs';
+import { CounterService } from './counter.service';
+
 describe('AppComponent', () => {
+  const CounterServiceMock = {
+    point: new BehaviorSubject(0),
+    increment: () => void(0)
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      providers: [
+        {provide: CounterService, useValue: CounterServiceMock}
+      ]
     }).compileComponents();
   }));
-  it('should create the app', async(() => {
+
+  it('should create', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'ng-test2'`, async(() => {
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
+  });
+
+  it('should have point value', () => {
     const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('ng-test2');
-  }));
-  it('should render title in a h1 tag', async(() => {
+    expect(app.point).toEqual(0);
+  });
+
+  it('should render point', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to ng-test2!');
-  }));
+    const pTag = compiled.querySelector('#p');
+    expect(pTag.textContent).toContain(`Point: 0`);
+    const service = fixture.debugElement.injector.get(CounterService);
+    service.point.next(3);
+    fixture.detectChanges();
+    expect(pTag.textContent).toContain(`Point: 3`);
+  });
+
+  it('should call increment', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const service = fixture.debugElement.injector.get(CounterService);
+    spyOn(service, 'increment');
+    const compiled = fixture.debugElement.nativeElement;
+    const incrementBtn = compiled.querySelector('#increment-btn');
+    incrementBtn.click();
+    expect(service.increment).toHaveBeenCalledTimes(1);
+    expect(service.increment).toHaveBeenCalledWith(3);
+  });
 });
