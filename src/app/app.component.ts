@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CounterService } from './counter.service';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromCounter from './actions/counter.actions';
+
+interface AppState {
+  count: {
+    number: number
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -8,27 +16,25 @@ import { CounterService } from './counter.service';
 })
 export class AppComponent implements OnInit {
   public point: number;
+  public count$: Observable<number>
 
   constructor(
-    private counterService: CounterService
+    private store: Store<AppState>
   ) {
+    this.count$ = store.pipe(select('count'));
   }
 
   ngOnInit() {
-    const pointSub = this.counterService.point.subscribe(
-      value => {
-        if (value || value === 0) {
-          this.point = value;
-        }
-      }
-    )
+    const countSub = this.count$.subscribe(val => {
+      this.point = val;
+    });
   }
 
   increment() {
-    this.counterService.increment(3);
+    this.store.dispatch(new fromCounter.Increment(3));
   }
 
   decrement() {
-    this.counterService.decrement(2);
+    this.store.dispatch(new fromCounter.Decrement(2));
   }
 }
