@@ -1,21 +1,22 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { BehaviorSubject } from 'rxjs';
-import { CounterService } from './counter.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('AppComponent', () => {
+import { HomeComponent } from './home.component';
+import { CounterService } from './../counter.service';
+import { BehaviorSubject } from 'rxjs';
+
+describe('HomeComponent', () => {
   const CounterServiceMock = {
     point: new BehaviorSubject(0),
-    increment: () => void(0)
+    increment: () => void (0)
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        HomeComponent
       ],
       providers: [
-        {provide: CounterService, useValue: CounterServiceMock}
+        { provide: CounterService, useValue: CounterServiceMock }
       ]
     }).compileComponents();
   }));
