@@ -1,40 +1,41 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { BehaviorSubject } from 'rxjs';
-import { CounterService } from './counter.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('AppComponent', () => {
+import { HomeComponent } from './home.component';
+import { CounterService } from './../counter.service';
+import { BehaviorSubject } from 'rxjs';
+
+describe('HomeComponent', () => {
   const CounterServiceMock = {
     point: new BehaviorSubject(0),
-    increment: () => void(0)
+    increment: () => void (0)
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        HomeComponent
       ],
       providers: [
-        {provide: CounterService, useValue: CounterServiceMock}
+        { provide: CounterService, useValue: CounterServiceMock }
       ]
     }).compileComponents();
   }));
 
   it('should create', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 
   it('should have point value', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
     expect(app.point).toEqual(0);
   });
 
   it('should render point', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     const pTag = compiled.querySelector('#p');
@@ -46,7 +47,7 @@ describe('AppComponent', () => {
   });
 
   it('should call increment', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     const service = fixture.debugElement.injector.get(CounterService);
     spyOn(service, 'increment');
     const compiled = fixture.debugElement.nativeElement;
