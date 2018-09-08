@@ -22,20 +22,20 @@ describe('HomeComponent', () => {
   }));
 
   it('should create', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 
   it('should have point value', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
     expect(app.point).toEqual(0);
   });
 
   it('should render point', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     const pTag = compiled.querySelector('#p');
@@ -47,7 +47,7 @@ describe('HomeComponent', () => {
   });
 
   it('should call increment', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(HomeComponent);
     const service = fixture.debugElement.injector.get(CounterService);
     spyOn(service, 'increment');
     const compiled = fixture.debugElement.nativeElement;
